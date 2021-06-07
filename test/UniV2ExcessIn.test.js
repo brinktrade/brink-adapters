@@ -16,7 +16,7 @@ async function getSigners () {
   return { ethStore }
 }
 
-describe.only('UniV2ExcessIn', function () {
+describe('UniV2ExcessIn', function () {
   beforeEach(async function () {
     const UniV2ExcessIn = await ethers.getContractFactory('UniV2ExcessIn')
     this.accountAddress = (await randomAddress()).address
