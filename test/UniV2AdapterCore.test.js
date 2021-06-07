@@ -1,7 +1,5 @@
 const { ethers } = require('hardhat')
 const { expectRevert } = require('@openzeppelin/test-helpers')
-// const { setupUniV2 } = require('./helpers/setup')
-// const randomAddress = require('./helpers/randomAddress')
 const {
   chaiSolidity,
   deployUniswapV2,
