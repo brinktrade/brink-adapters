@@ -1,13 +1,12 @@
 const { ethers } = require('hardhat')
-const { expectRevert, constants } = require('@openzeppelin/test-helpers')
-const { ZERO_ADDRESS } = constants
 const {
   chaiSolidity,
   deployUniswapV2,
   randomAddress,
   BN,
   BN15,
-  BN16
+  BN16,
+  ZERO_ADDRESS
 } = require('@brinkninja/test-helpers')
 const { expect } = chaiSolidity()
 
@@ -102,9 +101,9 @@ describe('UniV2ExcessOut', function () {
 
     describe('when executed at a bad price', async function () {
       it('should revert', async function () {
-        await expectRevert(tokenToTokenSwap(
+        await expect(tokenToTokenSwap(
           this.adapter, this.tokenA, this.tokenB, this.tokenA_amount, this.tokenB_total.add(BN(1)), this.accountAddress
-        ), 'UniV2ExcessOut: tokenToToken INSUFFICIENT_OUTPUT_AMOUNT')
+        )).to.be.revertedWith('UniV2ExcessOut: tokenToToken INSUFFICIENT_OUTPUT_AMOUNT')
       })
     })
   })
@@ -131,9 +130,9 @@ describe('UniV2ExcessOut', function () {
 
     describe('when executed at a bad price', async function () {
       it('should revert', async function () {
-        await expectRevert(ethToTokenSwap(
+        await expect(ethToTokenSwap(
           this.adapter, this.tokenA, this.eth_amount, this.token_total.add(BN(1)), this.accountAddress
-        ), 'UniV2ExcessOut: ethToToken INSUFFICIENT_OUTPUT_AMOUNT')
+        )).to.be.revertedWith('UniV2ExcessOut: ethToToken INSUFFICIENT_OUTPUT_AMOUNT')
       })
     })
   })
@@ -160,9 +159,9 @@ describe('UniV2ExcessOut', function () {
 
     describe('when executed at a bad price', async function () {
       it('should revert', async function () {
-        await expectRevert(tokenToEthSwap(
+        await expect(tokenToEthSwap(
           this.adapter, this.tokenA, this.token_amount, this.eth_total.add(BN(1)), this.accountAddress
-        ), 'UniV2ExcessOut: tokenToEth INSUFFICIENT_OUTPUT_AMOUNT')
+        )).to.be.revertedWith('UniV2ExcessOut: tokenToEth INSUFFICIENT_OUTPUT_AMOUNT')
       })
     })
   })
