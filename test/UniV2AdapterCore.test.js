@@ -1,10 +1,6 @@
 const { ethers } = require('hardhat')
-const {
-  chaiSolidity,
-  deployUniswapV2,
-  randomAddress,
-  BN
-} = require('@brinkninja/test-helpers')
+const brinkUtils = require('@brinkninja/utils')
+const { chaiSolidity, deployUniswapV2, BN, randomAddress } = brinkUtils.test
 const { expect } = chaiSolidity()
 
 async function getSigners () {
