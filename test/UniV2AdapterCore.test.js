@@ -1,11 +1,6 @@
 const { ethers } = require('hardhat')
-const { expectRevert } = require('@openzeppelin/test-helpers')
-const {
-  chaiSolidity,
-  deployUniswapV2,
-  randomAddress,
-  BN
-} = require('@brinkninja/test-helpers')
+const brinkUtils = require('@brinkninja/utils')
+const { chaiSolidity, deployUniswapV2, BN, randomAddress } = brinkUtils.test
 const { expect } = chaiSolidity()
 
 async function getSigners () {
@@ -46,10 +41,9 @@ describe('UniV2AdapterCore', function () {
 
     describe('when called by non-owner', function () {
       it('should revert', async function () {
-        await expectRevert(
-          this.adapter_fromNonOwner.withdrawToken(this.tokenA.address, this.tokenAmt, this.recipientAddress),
-          'Ownable: caller is not the owner'
-        )
+        await expect(
+          this.adapter_fromNonOwner.withdrawToken(this.tokenA.address, this.tokenAmt, this.recipientAddress)
+        ).to.be.revertedWith('Ownable: caller is not the owner')
       })
     })
   })
@@ -70,10 +64,8 @@ describe('UniV2AdapterCore', function () {
 
     describe('when called by non-owner', function () {
       it('should revert', async function () {
-        await expectRevert(
-          this.adapter_fromNonOwner.withdrawEth(this.ethAmt, this.recipientAddress),
-          'Ownable: caller is not the owner'
-        )
+        await expect(this.adapter_fromNonOwner.withdrawEth(this.ethAmt, this.recipientAddress))
+          .to.be.revertedWith('Ownable: caller is not the owner')
       })
     })
   })
