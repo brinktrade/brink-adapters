@@ -3,7 +3,7 @@ pragma solidity >=0.7.6;
 pragma abicoder v2;
 
 import "@brinkninja/range-orders/contracts/interfaces/IRangeOrderPositionManager.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "../../OpenZeppelin/IERC20.sol";
 import "../IWETH.sol";
 import "../Withdrawable.sol";
 

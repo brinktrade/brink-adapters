@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity >=0.7.6;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "../OpenZeppelin/Ownable.sol";
+import "../OpenZeppelin/IERC20.sol";
 import '../Libraries/TransferHelper.sol';
 
 contract Withdrawable is Ownable {
