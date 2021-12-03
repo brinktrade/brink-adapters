@@ -10,11 +10,6 @@ abstract contract UniV2AdapterCore is ISwapAdapter {
   IWETH public weth;
   address public factory;
 
-  constructor (IWETH _weth, address _factory) {
-    weth = _weth;
-    factory = _factory;
-  }
-
   function tokenToTokenOutputAmount(
     IERC20 tokenIn,
     IERC20 tokenOut,

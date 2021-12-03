@@ -5,10 +5,11 @@ import "../Withdrawable.sol";
 import "./UniV2AdapterCore.sol";
 
 contract UniV2ExcessIn is UniV2AdapterCore, Withdrawable {
-  constructor(IWETH _weth, address _factory, address _owner)
-    UniV2AdapterCore(_weth, _factory)
-    Withdrawable(_owner)
-  { }
+  function setup (IWETH _weth, address _factory, address _owner) external {
+    weth = _weth;
+    factory = _factory;
+    transferOwnership(_owner);
+  }
 
   function tokenToTokenExcess(IERC20 tokenIn, IERC20 tokenOut, uint tokenInAmount, uint tokenOutAmount)
     external view override

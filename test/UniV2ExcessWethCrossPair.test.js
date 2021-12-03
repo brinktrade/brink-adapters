@@ -29,7 +29,8 @@ describe('UniV2ExcessWethCrossPair', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await UniV2ExcessWethCrossPair.deploy(this.weth.address, this.factory.address, this.adapterOwnerAddress)
+    this.adapter = await UniV2ExcessWethCrossPair.deploy()
+    await this.adapter.setup(this.weth.address, this.factory.address, this.adapterOwnerAddress)
   })
 
   describe('when sent eth', function () {
