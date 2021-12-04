@@ -1,7 +1,8 @@
 const { ethers } = require('hardhat')
+const { expect } = require('chai')
 const brinkUtils = require('@brinkninja/utils')
-const { chaiSolidity, deployUniswapV2, BN, randomAddress } = brinkUtils.test
-const { expect } = chaiSolidity()
+const { BN } = brinkUtils
+const { deployUniswapV2, randomAddress } = brinkUtils.testHelpers(ethers)
 
 async function getSigners () {
   const [ ethStore, adapterOwner, nonOwner ] = await ethers.getSigners()
@@ -20,7 +21,8 @@ describe('UniV2AdapterCore', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await MockUniV2Adapter.deploy(this.weth.address, this.factory.address, adapterOwner.address)
+    this.adapter = await MockUniV2Adapter.deploy()
+    await this.adapter.setup(this.weth.address, this.factory.address, adapterOwner.address)
     this.adapter_fromNonOwner = await MockUniV2Adapter.attach(this.adapter.address).connect(nonOwner)
 
     this.recipientAddress = (await randomAddress()).address

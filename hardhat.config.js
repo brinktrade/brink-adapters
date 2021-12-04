@@ -1,5 +1,22 @@
 require('@nomiclabs/hardhat-ethers')
 
+const chai = require('chai')
+const { solidity } = require('ethereum-waffle')
+chai.use(solidity)
+
+const compilerSettings = {
+  optimizer: {
+    enabled: true,
+    runs: 800
+  },
+  metadata: {
+    // do not include the metadata hash, since this is machine dependent
+    // and we want all generated code to be deterministic
+    // https://docs.soliditylang.org/en/v0.7.6/metadata.html
+    bytecodeHash: 'none'
+  }
+}
+
 module.exports = {
   networks: {
     hardhat: {
@@ -10,18 +27,15 @@ module.exports = {
     }
   },
   solidity: {
-    version: '0.7.6',
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 800
+    compilers: [
+      {
+        version: '0.8.10',
+        settings: compilerSettings
       },
-      metadata: {
-        // do not include the metadata hash, since this is machine dependent
-        // and we want all generated code to be deterministic
-        // https://docs.soliditylang.org/en/v0.7.6/metadata.html
-        bytecodeHash: 'none'
-      },
-    },
+      {
+        version: '0.7.6',
+        settings: compilerSettings
+      }
+    ]
   }
 }
