@@ -21,8 +21,8 @@ describe('UniV2AdapterCore', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await MockUniV2Adapter.deploy()
-    await this.adapter.setup(this.weth.address, this.factory.address, adapterOwner.address)
+    this.adapter = await MockUniV2Adapter.deploy(adapterOwner.address)
+    await this.adapter.initialize(this.weth.address, this.factory.address)
     this.adapter_fromNonOwner = await MockUniV2Adapter.attach(this.adapter.address).connect(nonOwner)
 
     this.recipientAddress = (await randomAddress()).address

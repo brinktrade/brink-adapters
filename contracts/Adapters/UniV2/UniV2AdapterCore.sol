@@ -9,6 +9,14 @@ import "./UniswapV2Library.sol";
 abstract contract UniV2AdapterCore is ISwapAdapter {
   IWETH public weth;
   address public factory;
+  bool initialized;
+
+  function initialize (IWETH _weth, address _factory) external {
+    require(!initialized, 'INITIALIZED');
+    initialized = true;
+    weth = _weth;
+    factory = _factory;
+  }
 
   function tokenToTokenOutputAmount(
     IERC20 tokenIn,

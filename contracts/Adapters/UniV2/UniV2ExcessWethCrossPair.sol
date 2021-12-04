@@ -5,11 +5,8 @@ import "../Withdrawable.sol";
 import "./UniV2AdapterCore.sol";
 
 contract UniV2ExcessWethCrossPair is UniV2AdapterCore, Withdrawable {
-  function setup (IWETH _weth, address _factory, address _owner) external {
-    weth = _weth;
-    factory = _factory;
-    transferOwnership(_owner);
-  }
+  
+  constructor (address _owner) Withdrawable(_owner) { }
 
   function tokenToTokenOutputAmount(
     IERC20 tokenIn,

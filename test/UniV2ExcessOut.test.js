@@ -23,8 +23,8 @@ describe('UniV2ExcessOut', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await UniV2ExcessOut.deploy()
-    await this.adapter.setup(this.weth.address, this.factory.address, this.adapterOwnerAddress)
+    this.adapter = await UniV2ExcessOut.deploy(this.adapterOwnerAddress)
+    await this.adapter.initialize(this.weth.address, this.factory.address)
   })
 
   describe('when sent eth', function () {

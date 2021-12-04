@@ -6,11 +6,7 @@ import "../Adapters/UniV2/UniV2AdapterCore.sol";
 
 contract MockUniV2Adapter is UniV2AdapterCore, Withdrawable {
 
-  function setup (IWETH _weth, address _factory, address _owner) external {
-    weth = _weth;
-    factory = _factory;
-    transferOwnership(_owner);
-  }
+  constructor (address _owner) Withdrawable(_owner) { }
 
   receive() external payable {}
 

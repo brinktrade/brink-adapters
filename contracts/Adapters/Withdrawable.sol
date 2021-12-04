@@ -6,6 +6,10 @@ import "../OpenZeppelin/IERC20.sol";
 import '../Libraries/TransferHelper.sol';
 
 contract Withdrawable is Ownable {
+  constructor (address _owner) {
+    transferOwnership(_owner);
+  }
+
   function withdrawToken(IERC20 token, uint amount, address to) external onlyOwner {
     TransferHelper.safeTransfer(address(token), to, amount);
   }
