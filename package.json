@@ -7,18 +7,20 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "benchmark": "mocha benchmark --exit --recursive --file ./benchmark/setupTeardown.js --timeout 600000"
+    "docgen": "rm -rf docs && solidity-docgen --solc-module solc-0.7.6"
   },
   "description": "Adapter contracts for Brink",
   "author": "@mikec & @kyrrui",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@brinkninja/utils": "^0.3.2",
-    "@brinkninja/core": "1.0.0-rc.5",
+    "@brinkninja/core": "1.0.0-rc.6",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "ethereum-waffle": "^3.4.0",
     "hardhat": "^2.1.2",
-    "snap-shot-it": "^7.9.6"
+    "snap-shot-it": "^7.9.6",
+    "solc-0.7.6": "npm:solc@0.7.6",
+    "solidity-docgen": "^0.5.13"
   },
   "main": "index.js",
   "directories": {

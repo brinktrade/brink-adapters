@@ -37,5 +37,8 @@ module.exports = {
         settings: compilerSettings
       }
     ]
+  },
+  paths: {
+    sources: './{contracts,test}/**/*'
   }
 }

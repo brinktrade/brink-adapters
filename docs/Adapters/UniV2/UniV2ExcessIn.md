@@ -5,12 +5,6 @@
 
 
 
-### `constructor(contract IWETH _weth, address _factory, address _owner)` (public)
-
-
-
-
-
 ### `tokenToTokenExcess(contract IERC20 tokenIn, contract IERC20 tokenOut, uint256 tokenInAmount, uint256 tokenOutAmount) → address[] excessTokens, int256[] excessAmounts` (external)
 
 
@@ -48,6 +42,8 @@
 
 
 ### `receive()` (external)
+
+
 
 
 

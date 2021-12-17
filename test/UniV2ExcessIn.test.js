@@ -4,6 +4,7 @@ const brinkUtils = require('@brinkninja/utils')
 const { BN } = brinkUtils
 const { BN15, BN16, ZERO_ADDRESS } = brinkUtils.constants
 const { deployUniswapV2, randomAddress } = brinkUtils.testHelpers(ethers)
+const setupAdapterOwner = require('./helpers/setupAdapterOwner')
 
 async function getSigners () {
   const [ ethStore ] = await ethers.getSigners()
@@ -12,9 +13,8 @@ async function getSigners () {
 
 describe('UniV2ExcessIn', function () {
   beforeEach(async function () {
-    const UniV2ExcessIn = await ethers.getContractFactory('UniV2ExcessIn')
+    const UniV2ExcessIn = (await ethers.getContractFactory('UniV2ExcessIn')).connect(await setupAdapterOwner())
     this.accountAddress = (await randomAddress()).address
-    this.adapterOwnerAddress = (await randomAddress()).address
 
     const { factory, weth, router, tokenA, tokenB } = await deployUniswapV2()
     this.factory = factory
@@ -23,7 +23,7 @@ describe('UniV2ExcessIn', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await UniV2ExcessIn.deploy(this.adapterOwnerAddress)
+    this.adapter = await UniV2ExcessIn.deploy()
     await this.adapter.initialize(this.weth.address, this.factory.address)
   })
 

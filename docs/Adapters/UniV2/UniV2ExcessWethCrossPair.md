@@ -5,12 +5,6 @@
 
 
 
-### `constructor(contract IWETH _weth, address _factory, address _owner)` (public)
-
-
-
-
-
 ### `tokenToTokenOutputAmount(contract IERC20 tokenIn, contract IERC20 tokenOut, uint256 tokenInAmount) → uint256 tokenOutAmount` (public)
 
 
@@ -60,6 +54,8 @@
 
 
 ### `receive()` (external)
+
+
 
 
 
