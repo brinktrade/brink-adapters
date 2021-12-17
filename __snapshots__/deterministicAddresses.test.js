@@ -1,11 +1,11 @@
 exports['UniV2ExcessIn.sol deterministic address check 1'] = `
-0x19a1cE8710e6f5024780754D8f24bb98148c43AC
+0xBe0a23f067C792D8C1de36Aa3869dceB3e8837c2
 `
 
 exports['UniV2ExcessOut.sol deterministic address check 1'] = `
-0x3aA6a95B8D6d6B9C17332adD08b4d54807F35372
+0x08fBaABe7268E6035FC78F7083CC436a51a8157C
 `
 
 exports['UniV2ExcessWethCrossPair.sol deterministic address check 1'] = `
-0xf7A734490103F50D629598Ad024b889B1BB10872
+0x19cA54c98989F2DfD06E4ed81a553662dfF77810
 `
