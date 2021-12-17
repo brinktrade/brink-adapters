@@ -4,9 +4,6 @@ pragma solidity >=0.7.6;
 import "./UniV2AdapterCore.sol";
 
 contract UniV2ExcessWethCrossPair is UniV2AdapterCore {
-  
-  constructor (address _owner) UniV2AdapterCore(_owner) { }
-
   function tokenToTokenOutputAmount(
     IERC20 tokenIn,
     IERC20 tokenOut,

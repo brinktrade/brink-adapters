@@ -12,8 +12,6 @@ abstract contract UniV2AdapterCore is ISwapAdapter, Withdrawable {
   address public factory;
   bool initialized;
 
-  constructor (address _owner) Withdrawable(_owner) { }
-
   function initialize (IWETH _weth, address _factory) external {
     require(!initialized, 'INITIALIZED');
     initialized = true;

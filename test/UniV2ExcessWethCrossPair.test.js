@@ -14,7 +14,6 @@ describe('UniV2ExcessWethCrossPair', function () {
   beforeEach(async function () {
     const UniV2ExcessWethCrossPair = await ethers.getContractFactory('UniV2ExcessWethCrossPair')
     this.accountAddress = (await randomAddress()).address
-    this.adapterOwnerAddress = (await randomAddress()).address
 
     const { factory, weth, router, tokenA, tokenB } = await deployUniswapV2()
     this.factory = factory
@@ -23,7 +22,7 @@ describe('UniV2ExcessWethCrossPair', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await UniV2ExcessWethCrossPair.deploy(this.adapterOwnerAddress)
+    this.adapter = await UniV2ExcessWethCrossPair.deploy()
     await this.adapter.initialize(this.weth.address, this.factory.address)
   })
 

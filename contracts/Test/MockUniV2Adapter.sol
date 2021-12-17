@@ -4,9 +4,6 @@ pragma solidity >=0.7.6;
 import "../Adapters/UniV2/UniV2AdapterCore.sol";
 
 contract MockUniV2Adapter is UniV2AdapterCore {
-
-  constructor (address _owner) UniV2AdapterCore(_owner) { }
-
   receive() external payable {}
 
   function tokenToTokenExcess(IERC20 tokenIn, IERC20 tokenOut, uint tokenInAmount, uint tokenOutAmount) external view override returns (address[] memory excessTokens, int[] memory excessAmounts) { }

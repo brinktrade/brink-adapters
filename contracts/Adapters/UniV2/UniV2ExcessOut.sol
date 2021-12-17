@@ -4,9 +4,6 @@ pragma solidity >=0.7.6;
 import "./UniV2AdapterCore.sol";
 
 contract UniV2ExcessOut is UniV2AdapterCore {
-  
-  constructor (address _owner) UniV2AdapterCore(_owner) { }
-
   function tokenToTokenExcess(IERC20 tokenIn, IERC20 tokenOut, uint tokenInAmount, uint tokenOutAmount)
     external view override
     returns (address[] memory excessTokens, int[] memory excessAmounts)

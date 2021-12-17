@@ -1,17 +1,30 @@
-const { ethers } = require('hardhat')
+const hre = require('hardhat')
+const { ethers } = hre
 const { expect } = require('chai')
 const brinkUtils = require('@brinkninja/utils')
 const { BN } = brinkUtils
 const { deployUniswapV2, randomAddress } = brinkUtils.testHelpers(ethers)
+const { ADAPTER_OWNER } = require('../constants')
 
 async function getSigners () {
-  const [ ethStore, adapterOwner, nonOwner ] = await ethers.getSigners()
-  return { ethStore, adapterOwner, nonOwner }
+  const [ ethStore, nonOwner ] = await ethers.getSigners()
+  return { ethStore, nonOwner }
 }
 
 describe('UniV2AdapterCore', function () {
   beforeEach(async function () {
-    const { adapterOwner, nonOwner } = await getSigners()
+    const { ethStore, nonOwner } = await getSigners()
+
+    await ethStore.sendTransaction({
+      to: ADAPTER_OWNER,
+      value: ethers.BigNumber.from('10000000000000000000000000')
+    })
+    await hre.network.provider.request({
+      method: "hardhat_impersonateAccount",
+      params: [ADAPTER_OWNER],
+    })
+    const adapterOwner = await ethers.getSigner(ADAPTER_OWNER)
+
     const MockUniV2Adapter = (await ethers.getContractFactory('MockUniV2Adapter')).connect(adapterOwner)
 
     const { factory, weth, router, tokenA, tokenB } = await deployUniswapV2()
@@ -21,7 +34,7 @@ describe('UniV2AdapterCore', function () {
     this.tokenA = tokenA
     this.tokenB = tokenB
 
-    this.adapter = await MockUniV2Adapter.deploy(adapterOwner.address)
+    this.adapter = await MockUniV2Adapter.deploy()
     await this.adapter.initialize(this.weth.address, this.factory.address)
     this.adapter_fromNonOwner = await MockUniV2Adapter.attach(this.adapter.address).connect(nonOwner)
 
