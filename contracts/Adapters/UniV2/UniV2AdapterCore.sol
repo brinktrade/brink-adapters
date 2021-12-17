@@ -10,9 +10,9 @@ import "./UniswapV2Library.sol";
 abstract contract UniV2AdapterCore is ISwapAdapter, Withdrawable {
   IWETH public weth;
   address public factory;
-  bool initialized;
+  bool public initialized;
 
-  function initialize (IWETH _weth, address _factory) external {
+  function initialize (IWETH _weth, address _factory) external onlyOwner {
     require(!initialized, 'INITIALIZED');
     initialized = true;
     weth = _weth;

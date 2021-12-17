@@ -1,10 +1,9 @@
-const hre = require('hardhat')
-const { ethers } = hre
+const { ethers } = require('hardhat')
 const { expect } = require('chai')
 const brinkUtils = require('@brinkninja/utils')
 const { BN } = brinkUtils
 const { deployUniswapV2, randomAddress } = brinkUtils.testHelpers(ethers)
-const { ADAPTER_OWNER } = require('../constants')
+const setupAdapterOwner = require('./helpers/setupAdapterOwner')
 
 async function getSigners () {
   const [ ethStore, nonOwner ] = await ethers.getSigners()
@@ -13,17 +12,9 @@ async function getSigners () {
 
 describe('UniV2AdapterCore', function () {
   beforeEach(async function () {
-    const { ethStore, nonOwner } = await getSigners()
+    const { nonOwner } = await getSigners()
 
-    await ethStore.sendTransaction({
-      to: ADAPTER_OWNER,
-      value: ethers.BigNumber.from('10000000000000000000000000')
-    })
-    await hre.network.provider.request({
-      method: "hardhat_impersonateAccount",
-      params: [ADAPTER_OWNER],
-    })
-    const adapterOwner = await ethers.getSigner(ADAPTER_OWNER)
+    const adapterOwner = await setupAdapterOwner()
 
     const MockUniV2Adapter = (await ethers.getContractFactory('MockUniV2Adapter')).connect(adapterOwner)
 
@@ -35,14 +26,40 @@ describe('UniV2AdapterCore', function () {
     this.tokenB = tokenB
 
     this.adapter = await MockUniV2Adapter.deploy()
-    await this.adapter.initialize(this.weth.address, this.factory.address)
     this.adapter_fromNonOwner = await MockUniV2Adapter.attach(this.adapter.address).connect(nonOwner)
 
     this.recipientAddress = (await randomAddress()).address
   })
 
+  describe('initialize', function () {
+    describe('when called by owner', function () {
+      it('should succeed and set weth, factory, and initialized values', async function () {
+        await this.adapter.initialize(this.weth.address, this.factory.address)
+        expect(await this.adapter.weth()).to.equal(this.weth.address)
+        expect(await this.adapter.factory()).to.equal(this.factory.address)
+        expect(await this.adapter.initialized()).to.be.true
+      })
+    })
+
+    describe('when called by non-owner', function () {
+      it('should revert', async function () {
+        await expect(this.adapter_fromNonOwner.initialize(this.weth.address, this.factory.address))
+          .to.be.revertedWith('Ownable: caller is not the owner')
+      })
+    })
+
+    describe('when called twice', function () {
+      it('should revert', async function () {
+        await this.adapter.initialize(this.weth.address, this.factory.address)
+        await expect(this.adapter.initialize(this.weth.address, this.factory.address))
+          .to.be.revertedWith('INITIALIZED')
+      })
+    })
+  })
+
   describe('withdrawToken', function () {
     beforeEach(async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       this.tokenAmt = BN(1).mul(BN(10).pow(BN(16)))
       await this.tokenA.mint(this.adapter.address, this.tokenAmt)
     })
@@ -65,6 +82,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('withdrawEth', function () {
     beforeEach(async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const { ethStore } = await getSigners()
       this.ethAmt = BN(1).mul(BN(10).pow(BN(16)))
       await sendEth(ethStore, this.adapter.address, this.ethAmt)
@@ -87,6 +105,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('tokenToTokenOutputAmount', function () {
     it('should return output', async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const tokenAIn = BN(1).mul(BN(10).pow(BN(16)))
       const tokenB_expectedOut = await amountOut.call(this, this.tokenA, this.tokenB, tokenAIn)
       const tokenBOut = await this.adapter.tokenToTokenOutputAmount(
@@ -98,6 +117,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('tokenToTokenInputAmount', function () {
     it('should return input', async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const tokenBOut = BN(1).mul(BN(10).pow(BN(16)))
       const tokenA_expectedIn = await amountIn.call(this, this.tokenA, this.tokenB, tokenBOut)
       const tokenAIn = await this.adapter.tokenToTokenInputAmount(
@@ -109,6 +129,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('ethToTokenOutputAmount', function () {
     it('should return output', async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const ethIn = BN(1).mul(BN(10).pow(BN(16)))
       const tokenAExpectedOut = await amountOut.call(this, this.weth, this.tokenA, ethIn)
       const tokenAOut = await this.adapter.ethToTokenOutputAmount(
@@ -120,6 +141,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('ethToTokenInputAmount', function () {
     it('should return input', async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const tokenOut = BN(1).mul(BN(10).pow(BN(16)))
       const ethExpectedIn = await amountIn.call(this, this.weth, this.tokenA, tokenOut)
       const ethIn = await this.adapter.ethToTokenInputAmount(
@@ -131,6 +153,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('tokenToEthOutputAmount', function () {
     it('should return output', async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const tokenIn = BN(1).mul(BN(10).pow(BN(16)))
       const ethExpectedOut = await amountOut.call(this, this.tokenA, this.weth, tokenIn)
       const ethOut = await this.adapter.tokenToEthOutputAmount(
@@ -142,6 +165,7 @@ describe('UniV2AdapterCore', function () {
 
   describe('tokenToEthInputAmount', function () {
     it('should return input', async function () {
+      await this.adapter.initialize(this.weth.address, this.factory.address)
       const ethOut = BN(1).mul(BN(10).pow(BN(16)))
       const tokenExpectedIn = await amountIn.call(this, this.tokenA, this.weth, ethOut)
       const tokenIn = await this.adapter.tokenToEthInputAmount(
