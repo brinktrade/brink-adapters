@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity >=0.7.6;
 
-import "../Adapters/Withdrawable.sol";
 import "../Adapters/UniV2/UniV2AdapterCore.sol";
 
-contract MockUniV2Adapter is UniV2AdapterCore, Withdrawable {
+contract MockUniV2Adapter is UniV2AdapterCore {
 
-  constructor (address _owner) Withdrawable(_owner) { }
+  constructor (address _owner) UniV2AdapterCore(_owner) { }
 
   receive() external payable {}
 

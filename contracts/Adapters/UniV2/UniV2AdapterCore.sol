@@ -2,14 +2,17 @@
 pragma solidity >=0.7.6;
 
 import '../../Libraries/TransferHelper.sol';
+import "../Withdrawable.sol";
 import "../ISwapAdapter.sol";
 import "../IWETH.sol";
 import "./UniswapV2Library.sol";
 
-abstract contract UniV2AdapterCore is ISwapAdapter {
+abstract contract UniV2AdapterCore is ISwapAdapter, Withdrawable {
   IWETH public weth;
   address public factory;
   bool initialized;
+
+  constructor (address _owner) Withdrawable(_owner) { }
 
   function initialize (IWETH _weth, address _factory) external {
     require(!initialized, 'INITIALIZED');

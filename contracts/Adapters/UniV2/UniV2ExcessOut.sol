@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity >=0.7.6;
 
-import "../Withdrawable.sol";
 import "./UniV2AdapterCore.sol";
 
-contract UniV2ExcessOut is UniV2AdapterCore, Withdrawable {
+contract UniV2ExcessOut is UniV2AdapterCore {
   
-  constructor (address _owner) Withdrawable(_owner) { }
+  constructor (address _owner) UniV2AdapterCore(_owner) { }
 
   function tokenToTokenExcess(IERC20 tokenIn, IERC20 tokenOut, uint tokenInAmount, uint tokenOutAmount)
     external view override
