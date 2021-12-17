@@ -5,7 +5,7 @@
 
 
 
-### `constructor(contract IWETH _weth, address _factory)` (internal)
+### `initialize(contract IWETH _weth, address _factory)` (external)
 
 
 
@@ -84,6 +84,8 @@
 
 
 ### `_amounts(uint256 amountIn, uint256 amountOut) → uint256[] amounts` (internal)
+
+
 
 
 

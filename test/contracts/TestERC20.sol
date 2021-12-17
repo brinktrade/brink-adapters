@@ -2,7 +2,7 @@
 
 pragma solidity ^0.7.0;
 
-import "../OpenZeppelin/SafeMath.sol";
+import "../../contracts/OpenZeppelin/SafeMath.sol";
 
 contract TestERC20 {
   using SafeMath for uint;
