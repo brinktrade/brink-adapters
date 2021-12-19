@@ -1,6 +1,6 @@
 {
   "name": "@brinkninja/adapters",
-  "version": "1.0.0-rc.10",
+  "version": "1.0.0",
   "dependencies": {
     "@brinkninja/range-orders": "^0.2.0"
   },
